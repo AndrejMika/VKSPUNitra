@@ -84,7 +84,6 @@
                 et at metus. Nulla velit dolor, facilisis ac enim ac, malesuada
                 ultrices nibh.
               </p>
-              <a href="#" class="btn btn-primary btn1">More Info</a>
               <h2 class="members">
                 Our Members <span>Phasellus Eros</span>
               </h2>

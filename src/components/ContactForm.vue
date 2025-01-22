@@ -39,9 +39,12 @@
 
           <!-- Contact Form Section -->
           <div class="col-lg-8 col-md-8 col-sm-8 address">
-            <h2>Contact Form<span>{{ formSubtitle }}</span></h2>
+            <h2>Contact Form<span></span></h2>
             <form @submit.prevent="submitForm" id="contact-form" class="contact-form">
-              <div v-if="formSuccess" class="success-message">Contact form submitted.</div>
+              <!-- Success Message -->
+              <div v-if="formSuccess" class="submission-success">
+                Thank you, {{ submittedName }}! Your form has been successfully submitted.
+              </div>
 
               <div class="coll-1">
                 <label class="name">
@@ -51,19 +54,19 @@
                     placeholder="Name:"
                     :class="{ error: formErrors.name }"
                   />
-                  <span v-if="formErrors.name" class="error-message">*{{ formErrors.name }}</span>
+                  <span v-if="formErrors.name" class="validation-error">*{{ formErrors.name }}</span>
                 </label>
               </div>
 
               <div class="coll-2">
-                <label class="email">
+                <label class="name">
                   <input
                     v-model="form.email"
                     type="email"
                     placeholder="E-mail:"
                     :class="{ error: formErrors.email }"
                   />
-                  <span v-if="formErrors.email" class="error-message">*{{ formErrors.email }}</span>
+                  <span v-if="formErrors.email" class="validation-error">*{{ formErrors.email }}</span>
                 </label>
               </div>
 
@@ -75,8 +78,9 @@
                     placeholder="Phone:"
                     :class="{ error: formErrors.phone }"
                   />
-                  <span v-if="formErrors.phone" class="error-message">*{{ formErrors.phone }}</span>
+                  <span v-if="phoneError" class="validation-error">*{{ phoneError }}</span>
                 </label>
+                
               </div>
 
               <label class="message">
@@ -85,7 +89,7 @@
                   placeholder="Message:"
                   :class="{ error: formErrors.message }"
                 ></textarea>
-                <span v-if="formErrors.message" class="error-message">*{{ formErrors.message }}</span>
+                <span v-if="formErrors.message" class="validation-error">*{{ formErrors.message }}</span>
               </label>
 
               <div>
@@ -100,73 +104,83 @@
 </template>
 
 <script>
+import { useContactStore } from "../store/ContactStore";
+
 export default {
   data() {
+    const contactStore = useContactStore();
     return {
+      contactStore,
       googleMapSrc:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193572.1324218167!2d-74.11808620586806!3d40.70531103652556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2444d5f3f2e2d%3A0x7c4f77b5e2f9b6bd!2sBrooklyn%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1674676812134!5m2!1sen!2sin",
-      addressSubtitle: "etium magna",
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1326.9069170672706!2d18.08793548610791!3d48.306431800831085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476b3fd683c7fb21%3A0xf3b8e6ef017eb6c4!2sBeach%20Club%20Sl%C3%A1via%20SPU!5e0!3m2!1ssk!2ssk!4v1737506815287!5m2!1ssk!2ssk",
       addresses: [
         {
           title: "Address 1:",
-          details: "8901 Marmora Road, Glasgow, D04 89GR.",
-          phones: ["+1 800 559 6580", "+1 959 603 6035", "+1 504 889 9898"],
+          details: "94901 Nitra Spu",
+          phones: ["+421 980 559 658", "+421 959 603 635", "+421 604 889 998"],
         },
         {
           title: "Address 2:",
-          details: "9867 Mill Road, Cambridge, MG09 99HT.",
+          details: "Československej armády 1, 949 01 Nitra",
           phones: [],
         },
       ],
-      formSubtitle: "Nulla lacus erat",
-      form: {
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      },
-      formErrors: {},
-      formSuccess: false,
+      addressSubtitle: "etium magna",
     };
   },
-  methods: {
-    validateForm() {
-      this.formErrors = {};
-
-      if (!this.form.name.trim()) {
-        this.formErrors.name = "This field is required.";
-      }
-      if (!this.form.email.trim() || !/\S+@\S+\.\S+/.test(this.form.email)) {
-        this.formErrors.email = "This is not a valid email.";
-      }
-      if (this.form.phone && !/^\d+$/.test(this.form.phone)) {
-        this.formErrors.phone = "This is not a valid phone.";
-      }
-      if (!this.form.message.trim() || this.form.message.length < 20) {
-        this.formErrors.message = "The message is too short.";
-      }
-
-      return Object.keys(this.formErrors).length === 0;
+  computed: {
+    form() {
+      return this.contactStore.form;
     },
+    formErrors() {
+      return this.contactStore.formErrors;
+    },
+    formSuccess() {
+      return this.contactStore.formSuccess;
+    },
+    submittedName() {
+      return this.contactStore.submittedName;
+    },
+    // NEW: Individual error messages for each field
+    phoneError() {
+      return this.contactStore.formErrors.phone || ""; // Default to an empty string
+    },
+    nameError() {
+      return this.contactStore.formErrors.name || ""; // Default to an empty string
+    },
+    emailError() {
+      return this.contactStore.formErrors.email || ""; // Default to an empty string
+    },
+    messageError() {
+      return this.contactStore.formErrors.message || ""; // Default to an empty string
+    },
+  },
+  methods: {
     submitForm() {
-      if (this.validateForm()) {
-        // Simulate form submission success
-        this.formSuccess = true;
-
-        // Reset form
-        this.form = {
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-        };
-
-        setTimeout(() => {
-          this.formSuccess = false;
-        }, 3000);
-      }
+      console.log('Form data:', JSON.stringify(this.form));
+      console.log('Validation errors:', JSON.stringify(this.formErrors));
+      console.log('prdols',this.formSuccess);
+      console.log('ejoh',this.formErrors.phone); // Should show error message if there's a problem
+      console.log('trt',this.submittedName);
+      this.contactStore.submitForm();
     },
   },
 };
 </script>
+<style>
+.validation-error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+  display: block; 
+}
+.submission-success {
+  color: green;
+  font-size: 1em;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+  display: block; 
+}
 
+</style>

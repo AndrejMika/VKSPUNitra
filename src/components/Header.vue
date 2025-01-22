@@ -16,8 +16,8 @@
       <div class="menuheader">
         <nav class="navbar navbar-default navbar-static-top tm_navbar" role="navigation">
           <ul class="nav sf-menu">
-            <li class="active"><router-link to="/">Home</router-link></li>
-            <li>
+            <li :class="{ active: isActive('/') }"><router-link to="/">Home</router-link></li>
+            <li :class="{ active: isActive('/about') }">
               <router-link to="/about">About</router-link>
               <ul>
                 <li><a href="#">Dolore Ipsu</a></li>
@@ -35,12 +35,31 @@
                 </li>
               </ul>
             </li>
-            <li><router-link to="/gallery">Gallery</router-link></li>
-            <li><router-link to="/blog">Blog</router-link></li>
-            <li><router-link to="/contacts">Contacts</router-link></li>
+            <li :class="{ active: isActive('/gallery') }"><router-link to="/gallery">Gallery</router-link></li>
+            <li :class="{ active: isActive('/blog') }"><router-link to="/blog">Blog</router-link></li>
+            <li :class="{ active: isActive('/contacts') }"><router-link to="/contacts">Contacts</router-link></li>
           </ul>
         </nav>
       </div>
     </div>
   </header>
 </template>
+
+<script>
+import { useRoute } from "vue-router";
+
+export default {
+  name: "Header",
+  setup() {
+    const route = useRoute();
+
+    const isActive = (path) => {
+      return route.path === path;
+    };
+
+    return {
+      isActive,
+    };
+  },
+};
+</script>

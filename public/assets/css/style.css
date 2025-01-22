@@ -841,9 +841,7 @@ header {
 	width: 100%;
 	margin: 0 0 26px 0;
 }
-.list-members li figure .box-shadow(none) img {
- width: 100%;
-}
+
 .list-members li a {
 	margin-bottom: 0;
 	color: #757575;
