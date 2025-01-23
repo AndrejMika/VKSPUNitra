@@ -17,4 +17,5 @@ app.use(router); // Add Vue Router to the app
 app.use(createPinia()); // Add Pinia for state management
 app.use(createVuetify());
 
+
 app.mount('#app'); // Mount the app to the DOM

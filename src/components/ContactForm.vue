@@ -141,18 +141,18 @@ export default {
     submittedName() {
       return this.contactStore.submittedName;
     },
-    // NEW: Individual error messages for each field
+ 
     phoneError() {
-      return this.contactStore.formErrors.phone || ""; // Default to an empty string
+      return this.contactStore.formErrors.phone || ""; 
     },
     nameError() {
-      return this.contactStore.formErrors.name || ""; // Default to an empty string
+      return this.contactStore.formErrors.name || ""; 
     },
     emailError() {
-      return this.contactStore.formErrors.email || ""; // Default to an empty string
+      return this.contactStore.formErrors.email || ""; 
     },
     messageError() {
-      return this.contactStore.formErrors.message || ""; // Default to an empty string
+      return this.contactStore.formErrors.message || ""; 
     },
   },
   methods: {
@@ -160,7 +160,7 @@ export default {
       console.log('Form data:', JSON.stringify(this.form));
       console.log('Validation errors:', JSON.stringify(this.formErrors));
       console.log('prdols',this.formSuccess);
-      console.log('ejoh',this.formErrors.phone); // Should show error message if there's a problem
+      console.log('ejoh',this.formErrors.phone); 
       console.log('trt',this.submittedName);
       this.contactStore.submitForm();
     },

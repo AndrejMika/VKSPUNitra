@@ -73,20 +73,6 @@
 export default {
   data() {
     return {
-      slides: [
-        {
-          image: "../../assets/img/picture1.jpg",
-          caption: "Striving to be<br>the leaders",
-        },
-        {
-          image: "../../assets/img/picture2.jpg",
-          caption: "We know the<br>taste of victory",
-        },
-        {
-          image: "../../assets/img/picture3.jpg",
-          caption: "Volleyball is our<br>game for a lifetime",
-        },
-      ],
       newsList: [
         {
           date: "15 oct",

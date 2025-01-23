@@ -1,13 +1,13 @@
 <template>
-  <header id="header">
+  <header>
     <div class="container">
       <div class="headtop">
         <h1 class="navbar-brand navbar-brand_">
           <router-link to="/">
-            <img alt="VK SPU Nitra" src="../../assets/img/logo.png" />
+            <img style="width: 100px; height: 100px;" alt="VK SPU Nitra" src="../../assets/img/logo.png" />
           </router-link>
         </h1>
-        <router-link class="bmember" to="/membership">
+        <router-link class="bmember" to="/">
           <img src="../../assets/img/page1_icon1.png" alt="" />Staň sa členom klubu
         </router-link>
       </div>
@@ -42,24 +42,23 @@
         </nav>
       </div>
     </div>
-  </header>
+  </header> 
 </template>
 
 <script>
 import { useRoute } from "vue-router";
 
 export default {
-  name: "Header",
-  setup() {
-    const route = useRoute();
-
-    const isActive = (path) => {
-      return route.path === path;
-    };
-
+  name: "HeaderComponent",
+  data() {
     return {
-      isActive,
+      route: useRoute(), // Access the current route
     };
+  },
+  methods: {
+    isActive(path) {
+      return this.route.path === path; 
+    },
   },
 };
 </script>
